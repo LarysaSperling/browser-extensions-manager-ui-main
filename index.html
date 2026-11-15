@@ -7,13 +7,21 @@
     <title>Frontend Mentor | Browser extensions manager UI</title>
 
     <!-- Виконується ДО того, як браузер намалює сторінку і запуститься React.
-         Без цього людина з темною системною темою спершу побачила б "спалах"
-         світлої сторінки. React потім просто прочитає вже встановлене значення. -->
+         Без цього людина з темною темою спершу побачила б "спалах" світлої сторінки.
+         Пріоритет: 1) тема, яку людина обрала кнопкою (localStorage);
+                    2) тема системи (prefers-color-scheme).
+         React потім просто прочитає вже встановлене значення.
+         Ключ 'extensions-manager:theme' має збігатися з THEME_STORAGE_KEY в App.jsx. -->
     <script>
-      document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? 'dark'
-        : 'light';
+      (function () {
+        var saved = null;
+        try {
+          saved = localStorage.getItem('extensions-manager:theme');
+        } catch (e) {}
+        var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme =
+          saved === 'dark' || saved === 'light' ? saved : systemDark ? 'dark' : 'light';
+      })();
     </script>
   </head>
   <body>
