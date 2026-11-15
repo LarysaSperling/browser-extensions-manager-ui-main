@@ -41,8 +41,8 @@
   --gradient-dark: linear-gradient(180deg, #040918 0%, #091540 100%);
 
   /* Семантичні токени: "для чого" колір, а не "який".
-     Компоненти використовують лише їх, тому темна тема
-     пізніше просто перевизначить ці змінні. */
+     Компоненти використовують лише їх, а темна тема (нижче)
+     просто перевизначає ці змінні. */
   --color-bg: var(--gradient-light);
   --color-surface: var(--neutral-0);
   --color-text: var(--neutral-900);
@@ -55,18 +55,49 @@
   --color-logo-mark: var(--red-700);
   --color-switch-off: var(--neutral-300);
   --color-switch-thumb: var(--neutral-0);
+  --shadow-surface: 0 2px 3px hsl(0 0% 78% / 0.2);
 
-  /* Інтерактивні стани (крок 7). Темна тема перевизначить їх на кроці 8 */
+  --radius-card: 20px;
+  --radius-pill: 999px;
+
+  /* Інтерактивні стани */
   --color-focus: var(--red-400); /* рамка фокусу — однакова для всіх елементів */
   --color-accent-hover: var(--red-500); /* обраний фільтр і тумблер при наведенні */
   --color-control-hover: var(--neutral-300); /* кнопка теми при наведенні */
   --color-filter-hover-bg: hsl(200 60% 99% / 0.7); /* необраний фільтр при наведенні */
   --color-filter-hover-text: var(--neutral-600);
   --color-remove-focus-bg: var(--neutral-100);
-  --shadow-surface: 0 2px 3px hsl(0 0% 78% / 0.2);
+  --color-filter-bg: var(--neutral-0);
 
-  --radius-card: 20px;
-  --radius-pill: 999px;
+  /* Підказка браузеру: скролбари та стандартні елементи — світлі */
+  color-scheme: light;
+}
+
+/* ============ Темна тема ============
+   Перевизначаємо ЛИШЕ семантичні токени. CSS компонентів не змінюється:
+   .card як брав var(--color-surface), так і бере — просто значення інше. */
+:root[data-theme='dark'] {
+  --color-bg: var(--gradient-dark);
+  --color-surface: var(--neutral-800);
+  --color-text: var(--neutral-0);
+  --color-text-muted: var(--neutral-300);
+  --color-border: var(--neutral-600);
+  --color-border-strong: var(--neutral-600);
+  --color-control: var(--neutral-700);
+  --color-accent: var(--red-400);
+  --color-on-accent: var(--neutral-900); /* на світлішому червоному краще читається темний текст */
+  --color-logo-mark: var(--red-400);
+  --color-switch-off: var(--neutral-600);
+  --shadow-surface: none;
+
+  --color-accent-hover: var(--red-500);
+  --color-control-hover: var(--neutral-600);
+  --color-filter-hover-bg: var(--neutral-600);
+  --color-filter-hover-text: var(--neutral-0);
+  --color-remove-focus-bg: var(--neutral-600);
+  --color-filter-bg: var(--neutral-700);
+
+  color-scheme: dark;
 }
 
 /* ============ 3. Мінімальний reset ============ */

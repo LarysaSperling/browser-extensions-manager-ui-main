@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from './components/Header.jsx';
 import FilterBar from './components/FilterBar.jsx';
 import ExtensionList from './components/ExtensionList.jsx';
@@ -27,6 +27,20 @@ function App() {
   // На відміну від стану, зміна ref НЕ викликає перемальовування.
   const titleRef = useRef(null);
 
+  // Початкову тему вже визначив скрипт в index.html (за prefers-color-scheme).
+  // Функція в useState — "ліниве" початкове значення: виконується лише при першому рендері.
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || 'light');
+
+  // useEffect — для дій ПОЗА React (тут: атрибут на <html>, який React не контролює).
+  // Масив [theme] означає: запускати ефект лише тоді, коли змінилась тема.
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
+  function handleToggleTheme() {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+  }
+
   // Похідні дані: НЕ окремий стан, а обчислення з двох наявних станів.
   // Перераховується при кожному рендері, тому завжди актуальне:
   // вимкнули тумблер на вкладці "Active" — картка зникла одразу.
@@ -53,7 +67,7 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
+      <Header theme={theme} onToggleTheme={handleToggleTheme} />
 
       <main className="main">
         <section aria-labelledby="extensions-title">
