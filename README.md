@@ -1,24 +1,29 @@
-# Frontend Mentor - Browser extensions manager UI
+# Frontend Mentor - Browser extensions manager UI solution
 
-![Design preview for the Browser extensions manager UI coding challenge](./preview.jpg)
+This is a solution to the [Browser extensions manager UI challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/browser-extension-manager-ui-yNZnOfsMAp). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for checking out this front-end coding challenge.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Extra features](#extra-features)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [Getting started](#getting-started)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [Project structure](#project-structure)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+  - [AI Collaboration](#ai-collaboration)
+- [Author](#author)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects.
+## Overview
 
-**To do this challenge, you need a basic understanding of HTML, CSS and JavaScript.**
+### The challenge
 
-## The challenge
-
-Your challenge is to build out this browser extension manager UI and get it looking as close to the design as possible.
-
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
-
-We provide the data for the extensions in a local `data.json` file. So you can use that to add the data dynamically if you choose.
-
-Your users should be able to: 
+Users should be able to:
 
 - Toggle extensions between active and inactive states
 - Filter active and inactive extensions
@@ -27,87 +32,156 @@ Your users should be able to:
 - View the optimal layout for the interface depending on their device's screen size
 - See hover and focus states for all interactive elements on the page
 
-### Want some support on the challenge? 
+### Extra features
 
-[Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+Beyond the challenge requirements, I added:
 
-## Where to find everything
+- **Persistence with `localStorage`** – toggled states, removed extensions and the chosen theme survive a page reload. Reading and writing are wrapped in `try/catch`, so the app still works if storage is unavailable or contains broken JSON.
+- **Reset button** – restores all 12 extensions and their initial states from `data.json` (the theme is kept). It appears only when the list differs from the initial data, and inside the empty state when every extension has been removed.
+- **System theme** – the first visit follows `prefers-color-scheme`, and the page keeps following live system changes until the user picks a theme manually. A tiny inline script sets the theme before the first paint, so there is no flash of the wrong theme.
+- **Empty state** – a message for each filter when there is nothing to show.
+- **Accessibility**
+  - Semantic landmarks (`header`, `main`, `section`, `footer`), one `h1` and an `h2` per card
+  - Native `<input type="checkbox" role="switch">` toggles, so keyboard and screen readers work out of the box
+  - Filter buttons expose their state with `aria-pressed` (the CSS styles the same attribute, so visuals and semantics can't drift apart)
+  - Descriptive labels: "Remove DevLens", "Switch to dark theme"
+  - Focus moves to the list heading after Remove/Reset, instead of being lost on `<body>`
+  - Visible `:focus-visible` outlines on every interactive element
+  - Hover styles only on devices that support hover (`@media (hover: hover)`)
+  - `prefers-reduced-motion` support
+  - Colour contrast checked against WCAG AA; three colours were adjusted slightly from the design to pass (see [What I learned](#what-i-learned))
+- **Responsive down to 320px** – the filter buttons get more compact on very small screens so they stay in one row.
 
-Your task is to build out the project to the designs inside the `/design` folder. You will find both a mobile and a desktop version of the design. 
+### Screenshot
 
-The designs are in JPG static format. Using JPGs will mean that you'll need to use your best judgment for styles such as `font-size`, `padding` and `margin`. 
+![Desktop view, light theme](./screenshot.jpg)
 
-If you would like the Figma design file to gain experience using professional tools and build more accurate projects faster, you can [subscribe as a PRO member](https://www.frontendmentor.io/pro).
+### Links
 
-All the required assets for this project are in the `/assets` folder. The images are already exported for the correct screen size and optimized.
+- Solution URL: [GitHub repository](https://github.com/LarysaSperling/browser-extensions-manager-ui-main)
+- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
-We also include variable and static font files for the required fonts for this project. You can choose to either link to Google Fonts or use the local font files to host the fonts yourself. Note that we've removed the static font files for the font weights that aren't needed for this project.
+## Getting started
 
-There is also a `style-guide.md` file containing the information you'll need, such as color palette and fonts.
+```bash
+npm install
+npm run dev      # start the dev server at http://localhost:5173
+npm run build    # production build into /dist
+npm run preview  # preview the production build locally
+```
 
-## Using AI coding assistants
+## My process
 
-We've included two files to help you if you're using AI coding assistants (like Claude, GitHub Copilot, Cursor, etc.) while working on this challenge:
+### Built with
 
-- `AGENTS.md` - Contains detailed instructions for AI assistants on how to help you with this challenge. It's tailored to this challenge's difficulty level, so the AI will provide guidance appropriate to your learning stage—offering more support for beginner challenges and encouraging more independence on advanced ones.
-- `CLAUDE.md` - A pointer file that directs Claude-based tools to the AGENTS.md instructions.
+- Semantic HTML5 markup
+- CSS custom properties (two layers: palette tokens + semantic tokens for theming)
+- Flexbox
+- CSS Grid
+- Mobile-first workflow
+- [React 18](https://react.dev/) – UI library (`useState`, `useEffect`, `useRef`, a custom hook)
+- [Vite](https://vitejs.dev/) – build tool and dev server
+- Plain CSS, one stylesheet per component – no CSS framework
 
-**How to use them:** You don't need to do anything! These files are automatically detected by most AI coding tools. The AI will read them and adjust its behavior to be a better learning partner—guiding you toward solutions rather than just giving you the answers.
+### Project structure
 
-**Note:** These files are designed to help you *learn*, not to do the work for you. The AI is instructed to ask questions, give hints, and explain concepts rather than writing complete solutions.
+```
+src/
+├── App.jsx                 # all state lives here: extensions, filter, theme
+├── hooks/
+│   └── useLocalStorage.js  # useState that survives a reload
+├── components/
+│   ├── Header.jsx          # inline SVG logo + theme toggle
+│   ├── FilterBar.jsx       # heading + All / Active / Inactive
+│   ├── ExtensionList.jsx   # grid of cards or the empty state
+│   ├── ExtensionCard.jsx
+│   ├── Switch.jsx          # accessible toggle
+│   ├── EmptyState.jsx
+│   ├── ResetButton.jsx
+│   └── Footer.jsx
+├── data/data.json
+└── index.css               # fonts, design tokens, light/dark themes, shared styles
+```
 
-## Building your project
+### What I learned
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+**Derived data instead of duplicated state.** The filtered list is not stored in state – it is calculated from `extensions` and `filter` on every render. Because of that, an extension disappears from the "Active" tab the moment it is switched off, without any extra code:
 
-1. Initialize your project as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/).
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+```jsx
+const [extensions, setExtensions] = useLocalStorage(EXTENSIONS_STORAGE_KEY, extensionsData);
+const [filter, setFilter] = useState('all');
 
-## Deploying your project
+const visibleExtensions = extensions.filter((ext) => matchesFilter(ext, filter));
+const isModified = !isSameAsInitial(extensions); // decides whether Reset is shown
+```
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+**Immutable updates.** `.map()` to change an item, `.filter()` to remove one – always a new array, so React notices the change:
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+```jsx
+setExtensions((prev) =>
+  prev.map((ext) => (ext.name === name ? { ...ext, isActive: !ext.isActive } : ext)),
+);
+```
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://www.frontendmentor.io/guides/hosting-your-solution).
+**Theming with semantic tokens.** Components only use tokens such as `--color-surface` or `--color-accent`. The dark theme is a single block that redefines them – no component CSS had to change:
 
-## Create a custom `README.md`
+```css
+:root[data-theme='dark'] {
+  --color-surface: var(--neutral-800);
+  --color-text: var(--neutral-0);
+  --color-accent: var(--red-400);
+}
+```
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+**Inline SVG + `currentColor`.** The logo text has a hard-coded colour in `logo.svg`, which an `<img>` can't change. As inline SVG with `fill="currentColor"` it follows the theme automatically.
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+**A custom hook.** `useLocalStorage` has the same API as `useState`, so switching to persistence changed exactly one line in `App.jsx`. The theme deliberately does *not* use it: the hook writes on the first render, which would lock in the system theme. Instead, the theme is saved only after an explicit click.
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+**`useEffect` cleanup.** The live system-theme listener is removed in the effect's cleanup function to avoid a memory leak:
 
-## Submitting your solution
+```jsx
+useEffect(() => {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  function handleChange(event) {
+    if (getSavedTheme() !== null) return; // the user's choice wins
+    setTheme(event.matches ? 'dark' : 'light');
+  }
+  mediaQuery.addEventListener('change', handleChange);
+  return () => mediaQuery.removeEventListener('change', handleChange);
+}, []);
+```
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://www.frontendmentor.io/guides/how-to-submit-solutions) for tips on how to do this.
+**Contrast is worth measuring.** Checking the design colours against WCAG AA showed three issues. I kept the original hues and only adjusted lightness, so the result stays close to the design:
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+| Element | Design | Fixed |
+|---|---|---|
+| White text on the selected filter's hover red | 4.04:1 (`Red 500`) | 4.68:1 (needs 4.5:1) |
+| Focus ring on the light background | 2.89:1 (`Red 400`) | 3.66:1 with `Red 500` (needs 3:1) |
+| Inactive switch track vs. card – light / dark | 1.66:1 / 2.15:1 | 3.28:1 / 3.22:1 (needs 3:1 for UI components) |
 
-## Sharing your solution
+### Continued development
 
-There are multiple places you can share your solution:
+- Store only the user's *changes* (removed names, toggled states) instead of the whole array, so new extensions added to `data.json` would still show up for returning users.
+- Add tests with Vitest and React Testing Library (toggle, filter, remove, reset).
+- Try the same project in TypeScript.
 
-1. Share your solution page in the **#finished-projects** channel of our [community](https://www.frontendmentor.io/community). 
-2. Share on [X (formerly Twitter)](https://x.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in your post. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on [LinkedIn](https://www.linkedin.com/company/frontend-mentor/).
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+### Useful resources
 
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
+- [React docs – Choosing the state structure](https://react.dev/learn/choosing-the-state-structure) – the "avoid redundant state" principle behind the derived filtered list.
+- [React docs – Reusing logic with custom hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) – how to write `useLocalStorage`.
+- [MDN – ARIA: switch role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/switch_role) – building an accessible toggle on top of a checkbox.
+- [MDN – :focus-visible](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) – keyboard-only focus outlines.
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) – checking colour pairs against WCAG.
 
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
+### AI Collaboration
 
-## Got feedback for us?
+I used **Claude Code** (Anthropic's Claude in the terminal) as a pair programmer.
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+- **How:** I first asked it only to research the challenge – read the brief, the style guide and every design file – and write a report with requirements, open questions and a step-by-step plan. I made the key decisions myself (React + Vite, which extra features to build, how filtering should behave, inline SVG for the logo). Then it implemented one small step at a time, explaining the code and the concepts behind it. After each step I tested in the browser, asked questions and committed the changes myself. The plan is tracked in [`PLAN.md`](./PLAN.md).
+- **What worked well:** small, reviewable steps; explanations of *why*, not just *what* (immutable updates, derived state, `useRef`, `useEffect` cleanup); automated checks in headless Chrome for the keyboard order, horizontal overflow at 320px, console errors and colour contrast.
+- **What I watched for:** I reviewed every change before committing and pushed back on layout details (e.g. the filter buttons wrapping at 320px, and the desktop heading/filter alignment).
 
-This challenge is completely free. Please share it with anyone who will find it useful for practice.
+## Author
 
-**Have fun building!** 🚀
+- GitHub – [@LarysaSperling](https://github.com/LarysaSperling)
+- Frontend Mentor – [@LarysaSperling](https://www.frontendmentor.io/profile/LarysaSperling)

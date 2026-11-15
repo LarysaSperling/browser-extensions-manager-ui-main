@@ -53,7 +53,9 @@
   --color-accent: var(--red-700);
   --color-on-accent: var(--neutral-0); /* текст поверх червоного */
   --color-logo-mark: var(--red-700);
-  --color-switch-off: var(--neutral-300);
+  /* Вимкнений тумблер: у макеті neutral-300 (1.66:1 з карткою), а WCAG вимагає
+     3:1 для елементів інтерфейсу. Той самий сірий, лише темніший: 3.28:1. */
+  --color-switch-off: hsl(0 0% 55%);
   --color-switch-thumb: var(--neutral-0);
   --shadow-surface: 0 2px 3px hsl(0 0% 78% / 0.2);
 
@@ -61,8 +63,11 @@
   --radius-pill: 999px;
 
   /* Інтерактивні стани */
-  --color-focus: var(--red-400); /* рамка фокусу — однакова для всіх елементів */
-  --color-accent-hover: var(--red-500); /* обраний фільтр і тумблер при наведенні */
+  /* Два кольори нижче трохи відходять від макета заради контрасту WCAG:
+     red-400 на світлому фоні дає лише 2.89:1 (треба 3:1 для рамки фокусу),
+     а білий текст на red-500 — 4.04:1 (треба 4.5:1). */
+  --color-focus: var(--red-500); /* рамка фокусу: 3.66:1 на фоні сторінки */
+  --color-accent-hover: hsl(3 71% 50%); /* обраний фільтр і тумблер при наведенні: 4.68:1 з білим текстом */
   --color-control-hover: var(--neutral-300); /* кнопка теми при наведенні */
   --color-filter-hover-bg: hsl(200 60% 99% / 0.7); /* необраний фільтр при наведенні */
   --color-filter-hover-text: var(--neutral-600);
@@ -87,10 +92,12 @@
   --color-accent: var(--red-400);
   --color-on-accent: var(--neutral-900); /* на світлішому червоному краще читається темний текст */
   --color-logo-mark: var(--red-400);
-  --color-switch-off: var(--neutral-600);
+  /* У макеті neutral-600 (2.15:1 з карткою); той самий відтінок, світліший: 3.22:1 */
+  --color-switch-off: hsl(226 11% 48%);
   --shadow-surface: none;
 
-  --color-accent-hover: var(--red-500);
+  --color-focus: var(--red-400); /* на темному фоні red-400 контрастний: 5.4:1 */
+  --color-accent-hover: hsl(3 86% 58%); /* 4.65:1 з темним текстом (red-500 давав 4.30:1) */
   --color-control-hover: var(--neutral-600);
   --color-filter-hover-bg: var(--neutral-600);
   --color-filter-hover-text: var(--neutral-0);

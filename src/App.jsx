@@ -3,6 +3,7 @@ import Header from './components/Header.jsx';
 import FilterBar from './components/FilterBar.jsx';
 import ExtensionList from './components/ExtensionList.jsx';
 import ResetButton from './components/ResetButton.jsx';
+import Footer from './components/Footer.jsx';
 import { useLocalStorage } from './hooks/useLocalStorage.js';
 import extensionsData from './data/data.json';
 
@@ -168,6 +169,8 @@ function App() {
           )}
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 }
