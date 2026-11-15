@@ -1,0 +1,15 @@
+.empty-state {
+  margin-top: 2.5rem;
+  padding: 3rem 1.25rem;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-card);
+  color: var(--color-text-muted);
+  font-size: 1.125rem;
+  text-align: center;
+}
+
+@media (min-width: 64em) {
+  .empty-state {
+    margin-top: 2rem;
+  }
+}

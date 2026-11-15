@@ -8,7 +8,7 @@ const FILTERS = [
   { value: 'inactive', label: 'Inactive' },
 ];
 
-function FilterBar({ activeFilter }) {
+function FilterBar({ activeFilter, onFilterChange }) {
   return (
     <div className="filter-bar">
       <h1 id="extensions-title" className="filter-bar__title">
@@ -22,6 +22,7 @@ function FilterBar({ activeFilter }) {
             type="button"
             className="filter-button"
             aria-pressed={filter.value === activeFilter}
+            onClick={() => onFilterChange(filter.value)}
           >
             {filter.label}
           </button>

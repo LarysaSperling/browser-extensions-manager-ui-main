@@ -1,13 +1,32 @@
 import { useState } from 'react';
 import Header from './components/Header.jsx';
 import FilterBar from './components/FilterBar.jsx';
-import ExtensionCard from './components/ExtensionCard.jsx';
+import ExtensionList from './components/ExtensionList.jsx';
 import extensionsData from './data/data.json';
 
+// Чиста функція поза компонентом: не залежить від стану React,
+// тому її легко прочитати й протестувати окремо.
+function matchesFilter(extension, filter) {
+  if (filter === 'active') return extension.isActive;
+  if (filter === 'inactive') return !extension.isActive;
+  return true; // 'all'
+}
+
+const EMPTY_MESSAGES = {
+  all: 'No extensions installed.',
+  active: 'No active extensions.',
+  inactive: 'No inactive extensions.',
+};
+
 function App() {
-  // Стан: React "пам'ятає" масив між рендерами.
-  // Початкове значення — дані з JSON; далі змінюємо його ТІЛЬКИ через setExtensions.
+  // Стан: React "пам'ятає" значення між рендерами.
   const [extensions, setExtensions] = useState(extensionsData);
+  const [filter, setFilter] = useState('all');
+
+  // Похідні дані: НЕ окремий стан, а обчислення з двох наявних станів.
+  // Перераховується при кожному рендері, тому завжди актуальне:
+  // вимкнули тумблер на вкладці "Active" — картка зникла одразу.
+  const visibleExtensions = extensions.filter((ext) => matchesFilter(ext, filter));
 
   function handleToggle(name) {
     // Не змінюємо старий масив (ніякого ext.isActive = ...), а створюємо НОВИЙ:
@@ -25,23 +44,13 @@ function App() {
 
       <main className="main">
         <section aria-labelledby="extensions-title">
-          <FilterBar activeFilter="all" />
+          <FilterBar activeFilter={filter} onFilterChange={setFilter} />
 
-          <ul className="extensions-list" role="list">
-            {extensions.map((extension) => (
-              // key — унікальний "паспорт" елемента списку для React.
-              // id в даних немає, але назви унікальні, тому беремо name.
-              <li key={extension.name}>
-                <ExtensionCard
-                  logo={extension.logo}
-                  name={extension.name}
-                  description={extension.description}
-                  isActive={extension.isActive}
-                  onToggle={() => handleToggle(extension.name)}
-                />
-              </li>
-            ))}
-          </ul>
+          <ExtensionList
+            extensions={visibleExtensions}
+            emptyMessage={EMPTY_MESSAGES[filter]}
+            onToggle={handleToggle}
+          />
         </section>
       </main>
     </div>

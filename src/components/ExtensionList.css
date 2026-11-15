@@ -1,0 +1,27 @@
+/* Перенесено з index.css: стилі сітки тепер живуть поруч зі своїм компонентом */
+.extensions-list {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: одна колонка */
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+  padding: 0;
+  list-style: none; /* прибираємо маркери списку */
+}
+
+/* Медіазапити в em: якщо користувач збільшив базовий шрифт у браузері,
+   розкладка перемкнеться раніше, і текст не буде тіснитися. */
+
+/* Tablet (від 640px): дві колонки */
+@media (min-width: 40em) {
+  .extensions-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop (від 1024px): три колонки */
+@media (min-width: 64em) {
+  .extensions-list {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 2rem;
+  }
+}
