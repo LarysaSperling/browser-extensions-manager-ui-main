@@ -4,10 +4,6 @@ import ExtensionCard from './components/ExtensionCard.jsx';
 import extensionsData from './data/data.json';
 
 function App() {
-  // Крок 2: показуємо лише одну картку (перше розширення), щоб налаштувати її вигляд.
-  // На кроці 3 тут з'явиться .map() по всьому масиву.
-  const firstExtension = extensionsData[0];
-
   return (
     <div className="container">
       <Header />
@@ -16,13 +12,19 @@ function App() {
         <section aria-labelledby="extensions-title">
           <FilterBar activeFilter="all" />
 
-          <div className="extensions-list">
-            <ExtensionCard
-              logo={firstExtension.logo}
-              name={firstExtension.name}
-              description={firstExtension.description}
-            />
-          </div>
+          <ul className="extensions-list" role="list">
+            {extensionsData.map((extension) => (
+              // key — унікальний "паспорт" елемента списку для React.
+              // id в даних немає, але назви унікальні, тому беремо name.
+              <li key={extension.name}>
+                <ExtensionCard
+                  logo={extension.logo}
+                  name={extension.name}
+                  description={extension.description}
+                />
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
     </div>

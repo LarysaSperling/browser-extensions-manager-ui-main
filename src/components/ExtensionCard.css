@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: space-between; /* верхній блок угорі, кнопки внизу */
   gap: 2rem;
+  height: 100%; /* заповнити всю висоту <li>, щоб картки в рядку були однакові */
   padding: 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);

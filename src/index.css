@@ -106,6 +106,35 @@ body {
 
 .extensions-list {
   display: grid;
+  grid-template-columns: 1fr; /* mobile: одна колонка */
   gap: 0.75rem;
   margin-top: 2.5rem;
+  padding: 0;
+  list-style: none; /* прибираємо маркери списку */
+}
+
+/* Медіазапити в em: якщо користувач збільшив базовий шрифт у браузері,
+   розкладка перемкнеться раніше, і текст не буде тіснитися. */
+
+/* Tablet (від 640px): дві колонки */
+@media (min-width: 40em) {
+  .extensions-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop (від 1024px): три колонки і більші відступи, як на макеті 1440px */
+@media (min-width: 64em) {
+  .container {
+    padding-top: 2.5rem;
+  }
+
+  .main {
+    margin-top: 4rem;
+  }
+
+  .extensions-list {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 2rem;
+  }
 }
