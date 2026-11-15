@@ -48,3 +48,18 @@
   line-height: 1.25;
   cursor: pointer;
 }
+
+/* Фокус з клавіатури: крім загальної червоної рамки (index.css) — сірий фон, як на макеті */
+.card__remove:focus-visible {
+  background-color: var(--color-remove-focus-bg);
+}
+
+/* Наведення: червона кнопка — підказка, що дія "руйнівна" (видалення).
+   Стоїть ПІСЛЯ :focus-visible, тож якщо обидва стани разом — перемагає hover. */
+@media (hover: hover) {
+  .card__remove:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+}

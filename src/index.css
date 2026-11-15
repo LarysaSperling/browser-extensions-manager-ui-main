@@ -55,6 +55,14 @@
   --color-logo-mark: var(--red-700);
   --color-switch-off: var(--neutral-300);
   --color-switch-thumb: var(--neutral-0);
+
+  /* Інтерактивні стани (крок 7). Темна тема перевизначить їх на кроці 8 */
+  --color-focus: var(--red-400); /* рамка фокусу — однакова для всіх елементів */
+  --color-accent-hover: var(--red-500); /* обраний фільтр і тумблер при наведенні */
+  --color-control-hover: var(--neutral-300); /* кнопка теми при наведенні */
+  --color-filter-hover-bg: hsl(200 60% 99% / 0.7); /* необраний фільтр при наведенні */
+  --color-filter-hover-text: var(--neutral-600);
+  --color-remove-focus-bg: var(--neutral-100);
   --shadow-surface: 0 2px 3px hsl(0 0% 78% / 0.2);
 
   --radius-card: 20px;
@@ -101,7 +109,36 @@ body {
   padding-block: 1.25rem 4rem;
 }
 
-/* ============ 5. Розкладка сторінки ============ */
+/* ============ 5. Фокус і анімації (для всіх компонентів) ============ */
+
+/* :focus-visible — рамка з'являється при навігації з клавіатури,
+   але НЕ при кліку мишкою (на відміну від :focus).
+   :where() має нульову специфічність, тож компонент легко перевизначить це правило. */
+:where(button, a, input):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Плавні переходи кольорів для всіх кнопок */
+button {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Людям, які вимкнули анімації в системі, вимикаємо всі переходи разом.
+   !important тут виправданий: це налаштування користувача, воно має перемогти. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ============ 6. Розкладка сторінки ============ */
 .main {
   margin-top: 2.5rem;
 }

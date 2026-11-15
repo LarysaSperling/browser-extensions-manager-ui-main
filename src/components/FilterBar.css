@@ -64,3 +64,19 @@
   background-color: var(--color-accent);
   color: var(--color-on-accent);
 }
+
+@media (hover: hover) {
+  /* Необраний фільтр: світліший фон і приглушений текст */
+  .filter-button:hover {
+    background-color: var(--color-filter-hover-bg);
+    color: var(--color-filter-hover-text);
+  }
+
+  /* Обраний фільтр: трохи світліший червоний.
+     Селектор з атрибутом специфічніший, тому перемагає правило вище. */
+  .filter-button[aria-pressed='true']:hover {
+    border-color: var(--color-accent-hover);
+    background-color: var(--color-accent-hover);
+    color: var(--color-on-accent);
+  }
+}

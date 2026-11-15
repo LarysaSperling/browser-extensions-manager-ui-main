@@ -31,3 +31,11 @@
   color: var(--color-text);
   cursor: pointer;
 }
+
+/* (hover: hover) — лише на пристроях, які вміють "наводити" (мишка, тачпад).
+   На телефоні hover "прилипає" після дотику, тому там його краще не вмикати. */
+@media (hover: hover) {
+  .theme-toggle:hover {
+    background-color: var(--color-control-hover);
+  }
+}

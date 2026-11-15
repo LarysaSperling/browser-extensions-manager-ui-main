@@ -48,17 +48,19 @@
   transform: translateX(1rem); /* 36 − 16 − 2·2 = 16px */
 }
 
-/* Мінімальний видимий фокус: стандартний чекбокс прихований, тож свою рамку
-   малюємо на доріжці. Повноцінні focus-стани для всього — крок 7. */
+/* Наведення на увімкнений тумблер — світліший червоний (як на макеті) */
+@media (hover: hover) {
+  .switch:hover .switch__input:checked + .switch__track {
+    background-color: var(--color-accent-hover);
+  }
+}
+
+/* Сам чекбокс невидимий (opacity: 0), тож його рамка фокусу теж не видна.
+   Малюємо рамку на доріжці — "сусіді" сфокусованого input.
+   Загальне правило з index.css тут не допоможе, тому повторюємо його для track. */
 .switch__input:focus-visible + .switch__track {
-  outline: 2px solid var(--red-400);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* Якщо в системі ввімкнено "менше анімацій" — перемикаємо миттєво */
-@media (prefers-reduced-motion: reduce) {
-  .switch__track,
-  .switch__track::after {
-    transition: none;
-  }
-}
+/* prefers-reduced-motion тепер обробляється глобально в index.css */
