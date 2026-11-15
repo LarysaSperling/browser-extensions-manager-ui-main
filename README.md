@@ -59,7 +59,7 @@ Beyond the challenge requirements, I added:
 ### Links
 
 - Solution URL: [GitHub repository](https://github.com/LarysaSperling/browser-extensions-manager-ui-main)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [browser-extensions-manager-ui-main-sage.vercel.app](https://browser-extensions-manager-ui-main-sage.vercel.app)
 
 ## Getting started
 
