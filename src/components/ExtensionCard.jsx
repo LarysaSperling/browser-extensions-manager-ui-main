@@ -1,8 +1,10 @@
+import Switch from './Switch.jsx';
 import './ExtensionCard.css';
 
 // Компонент нічого не знає про data.json: він отримує все потрібне через props.
 // Тому його легко перевикористати для будь-якого розширення.
-function ExtensionCard({ logo, name, description }) {
+// Стан тут НЕ зберігається: картка лише показує isActive і повідомляє "мене перемкнули" через onToggle.
+function ExtensionCard({ logo, name, description, isActive, onToggle }) {
   return (
     <article className="card">
       <div className="card__info">
@@ -18,7 +20,7 @@ function ExtensionCard({ logo, name, description }) {
         <button type="button" className="card__remove">
           Remove
         </button>
-        {/* Тут буде тумблер (компонент Switch) — крок 4 */}
+        <Switch checked={isActive} onChange={onToggle} label={name} />
       </div>
     </article>
   );
