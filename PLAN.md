@@ -52,3 +52,4 @@ App                  ← тут живе весь стан
 - [x] ✅ **10b. README:** англійською за шаблоном Frontend Mentor, розділи про бонуси та AI-співпрацю, скриншот `screenshot.jpg`; `README-template.md` видалено.
 - [x] ✅ **10c. Контраст тумблера:** доріжка вимкненого тумблера `hsl(0 0% 55%)` / `hsl(226 11% 48%)` — 3.29:1 / 3.20:1 (було 1.66 / 2.15). Тепер усі 28 перевірених пар кольорів проходять WCAG AA.
 - [x] ✅ **10d. Деплой на Vercel:** production з гілки `main`, preview-адреси для `develop` і Pull Request'ів. Live: https://browser-extensions-manager-ui-main-sage.vercel.app (посилання є в README).
+- [x] ✅ **11. Фідбек рецензії Frontend Mentor:** видима рамка фокусу на заголовку «Extensions List» після Remove/Reset (`:focus`, `outline-offset: 6px`, `border-radius: 8px`, колір `--color-focus`), у світлій і темній темі, після клавіатури й мишки.

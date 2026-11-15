@@ -45,7 +45,7 @@ Beyond the challenge requirements, I added:
   - Native `<input type="checkbox" role="switch">` toggles, so keyboard and screen readers work out of the box
   - Filter buttons expose their state with `aria-pressed` (the CSS styles the same attribute, so visuals and semantics can't drift apart)
   - Descriptive labels: "Remove DevLens", "Switch to dark theme"
-  - Focus moves to the list heading after Remove/Reset, instead of being lost on `<body>`
+  - Focus moves to the list heading after Remove/Reset, instead of being lost on `<body>`, and the heading shows a visible focus outline so users can see where focus went (suggested in Frontend Mentor code review)
   - Visible `:focus-visible` outlines on every interactive element
   - Hover styles only on devices that support hover (`@media (hover: hover)`)
   - `prefers-reduced-motion` support
