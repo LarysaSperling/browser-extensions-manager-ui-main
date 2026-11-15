@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Header from './components/Header.jsx';
 import FilterBar from './components/FilterBar.jsx';
 import ExtensionList from './components/ExtensionList.jsx';
+import ResetButton from './components/ResetButton.jsx';
 import { useLocalStorage } from './hooks/useLocalStorage.js';
 import extensionsData from './data/data.json';
 
@@ -28,8 +29,22 @@ function matchesFilter(extension, filter) {
   return true; // 'all'
 }
 
+// Чи збігається список з початковим data.json?
+// Порівнюємо лише те, що людина може змінити: склад (назви) і стани тумблерів.
+// Порядок не змінюється (ми лише видаляємо), тому порівнюємо за індексом.
+function isSameAsInitial(extensions) {
+  return (
+    extensions.length === extensionsData.length &&
+    extensions.every(
+      (ext, index) =>
+        ext.name === extensionsData[index].name &&
+        ext.isActive === extensionsData[index].isActive,
+    )
+  );
+}
+
 const EMPTY_MESSAGES = {
-  all: 'No extensions installed.',
+  all: 'No extensions installed.', // буває лише тоді, коли видалено все
   active: 'No active extensions.',
   inactive: 'No inactive extensions.',
 };
@@ -94,6 +109,10 @@ function App() {
   // вимкнули тумблер на вкладці "Active" — картка зникла одразу.
   const visibleExtensions = extensions.filter((ext) => matchesFilter(ext, filter));
 
+  // Ще два похідні значення — так само обчислюються, а не зберігаються в стані.
+  const isModified = !isSameAsInitial(extensions);
+  const isAllRemoved = extensions.length === 0;
+
   function handleToggle(name) {
     // Не змінюємо старий масив (ніякого ext.isActive = ...), а створюємо НОВИЙ:
     // React порівнює посилання — новий масив = "дані змінились, треба перемалювати".
@@ -113,6 +132,16 @@ function App() {
     titleRef.current?.focus();
   }
 
+  function handleReset() {
+    // Повертаємо початковий масив. useLocalStorage сам перезапише збережені дані.
+    // Тему не чіпаємо — це окреме налаштування.
+    setExtensions(extensionsData);
+    // Фільтр теж скидаємо на "All", щоб людина одразу побачила всі 12 розширень.
+    setFilter('all');
+    // Кнопка Reset зникне (список знову "початковий"), тож переносимо фокус, як після Remove.
+    titleRef.current?.focus();
+  }
+
   return (
     <div className="container">
       <Header theme={theme} onToggleTheme={handleToggleTheme} />
@@ -124,9 +153,19 @@ function App() {
           <ExtensionList
             extensions={visibleExtensions}
             emptyMessage={EMPTY_MESSAGES[filter]}
+            // Reset у порожньому стані — лише коли видалено ВСЕ (а не коли фільтр нічого не знайшов)
+            emptyAction={isAllRemoved ? <ResetButton onReset={handleReset} /> : null}
             onToggle={handleToggle}
             onRemove={handleRemove}
           />
+
+          {/* Reset під списком: лише якщо є зміни І список не порожній
+              (коли видалено все, кнопка вже є всередині порожнього стану — без дублів) */}
+          {isModified && !isAllRemoved && (
+            <div className="list-actions">
+              <ResetButton onReset={handleReset} />
+            </div>
+          )}
         </section>
       </main>
     </div>

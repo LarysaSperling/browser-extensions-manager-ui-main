@@ -39,27 +39,4 @@
   justify-content: space-between;
 }
 
-.card__remove {
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-pill);
-  background-color: transparent;
-  font-weight: 500;
-  line-height: 1.25;
-  cursor: pointer;
-}
-
-/* Фокус з клавіатури: крім загальної червоної рамки (index.css) — сірий фон, як на макеті */
-.card__remove:focus-visible {
-  background-color: var(--color-remove-focus-bg);
-}
-
-/* Наведення: червона кнопка — підказка, що дія "руйнівна" (видалення).
-   Стоїть ПІСЛЯ :focus-visible, тож якщо обидва стани разом — перемагає hover. */
-@media (hover: hover) {
-  .card__remove:hover {
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
-    color: var(--color-on-accent);
-  }
-}
+/* Стилі кнопки Remove переїхали в index.css (.btn-outline): тепер їх ділять Remove і Reset */

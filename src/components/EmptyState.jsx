@@ -2,11 +2,14 @@ import './EmptyState.css';
 
 // role="status" — "жива область": скрінрідер зачитає текст, коли він з'явиться,
 // і людина без зору дізнається, що список став порожнім.
-function EmptyState({ message }) {
+// action — необов'язковий елемент під текстом (наприклад, кнопка Reset).
+function EmptyState({ message, action }) {
   return (
-    <p className="empty-state" role="status">
-      {message}
-    </p>
+    <div className="empty-state">
+      <p role="status">{message}</p>
+      {/* && — умовний рендер: якщо action немає (null), нічого не малюємо */}
+      {action && <div className="empty-state__action">{action}</div>}
+    </div>
   );
 }
 

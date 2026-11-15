@@ -23,7 +23,7 @@ function ExtensionCard({ logo, name, description, isActive, onToggle, onRemove }
             ("натисни Remove") теж знайде кнопку. */}
         <button
           type="button"
-          className="card__remove"
+          className="btn-outline"
           aria-label={`Remove ${name}`}
           onClick={onRemove}
         >

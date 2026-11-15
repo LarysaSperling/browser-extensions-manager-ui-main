@@ -4,10 +4,10 @@ import './ExtensionList.css';
 
 // Відповідає лише за ВІДОБРАЖЕННЯ: отримує вже відфільтрований масив
 // і вирішує, що показати — сітку карток чи порожній стан.
-function ExtensionList({ extensions, emptyMessage, onToggle, onRemove }) {
+function ExtensionList({ extensions, emptyMessage, emptyAction, onToggle, onRemove }) {
   // Ранній return: якщо показувати нічого, далі код не виконується
   if (extensions.length === 0) {
-    return <EmptyState message={emptyMessage} />;
+    return <EmptyState message={emptyMessage} action={emptyAction} />;
   }
 
   return (

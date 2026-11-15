@@ -8,6 +8,10 @@
   text-align: center;
 }
 
+.empty-state__action {
+  margin-top: 1.25rem;
+}
+
 @media (min-width: 64em) {
   .empty-state {
     margin-top: 2rem;
