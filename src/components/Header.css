@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-surface);
+}
+
+.logo {
+  width: auto;
+  height: 2.5rem; /* 40px; ширина підлаштується сама завдяки viewBox */
+  color: var(--color-text); /* це колір, який отримає currentColor у тексті логотипа */
+}
+
+.logo__mark {
+  fill: var(--color-logo-mark);
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 3.125rem; /* 50px */
+  aspect-ratio: 1;
+  flex-shrink: 0; /* не стискатися, навіть якщо екран дуже вузький */
+  border: none;
+  border-radius: 12px;
+  background-color: var(--color-control);
+  color: var(--color-text);
+  cursor: pointer;
+}

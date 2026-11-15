@@ -1,16 +1,31 @@
+import Header from './components/Header.jsx';
+import FilterBar from './components/FilterBar.jsx';
+import ExtensionCard from './components/ExtensionCard.jsx';
 import extensionsData from './data/data.json';
 
-// Тимчасова перевірка кроку 1: шрифт, кольори, фон і те, що JSON імпортується.
-// На наступних кроках цей вміст замінять справжні компоненти.
 function App() {
+  // Крок 2: показуємо лише одну картку (перше розширення), щоб налаштувати її вигляд.
+  // На кроці 3 тут з'явиться .map() по всьому масиву.
+  const firstExtension = extensionsData[0];
+
   return (
-    <main className="container">
-      <h1>Extensions List</h1>
-      <p>Завантажено розширень: {extensionsData.length}</p>
-      <p style={{ fontWeight: 400 }}>Regular 400</p>
-      <p style={{ fontWeight: 500 }}>Medium 500</p>
-      <p style={{ fontWeight: 700 }}>Bold 700</p>
-    </main>
+    <div className="container">
+      <Header />
+
+      <main className="main">
+        <section aria-labelledby="extensions-title">
+          <FilterBar activeFilter="all" />
+
+          <div className="extensions-list">
+            <ExtensionCard
+              logo={firstExtension.logo}
+              name={firstExtension.name}
+              description={firstExtension.description}
+            />
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 
