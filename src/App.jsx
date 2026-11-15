@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Header from './components/Header.jsx';
 import FilterBar from './components/FilterBar.jsx';
 import ExtensionList from './components/ExtensionList.jsx';
@@ -23,6 +23,10 @@ function App() {
   const [extensions, setExtensions] = useState(extensionsData);
   const [filter, setFilter] = useState('all');
 
+  // useRef — "коробка" для посилання на DOM-елемент (тут — заголовок h1).
+  // На відміну від стану, зміна ref НЕ викликає перемальовування.
+  const titleRef = useRef(null);
+
   // Похідні дані: НЕ окремий стан, а обчислення з двох наявних станів.
   // Перераховується при кожному рендері, тому завжди актуальне:
   // вимкнули тумблер на вкладці "Active" — картка зникла одразу.
@@ -38,18 +42,28 @@ function App() {
     );
   }
 
+  function handleRemove(name) {
+    // filter повертає НОВИЙ масив без потрібного елемента — знову незмінне оновлення.
+    setExtensions((prevExtensions) => prevExtensions.filter((ext) => ext.name !== name));
+
+    // Кнопка, на якій був фокус, зникне разом із карткою, і фокус "впаде" на <body>
+    // (користувач клавіатури опиниться на початку сторінки). Переносимо його на заголовок списку.
+    titleRef.current?.focus();
+  }
+
   return (
     <div className="container">
       <Header />
 
       <main className="main">
         <section aria-labelledby="extensions-title">
-          <FilterBar activeFilter={filter} onFilterChange={setFilter} />
+          <FilterBar activeFilter={filter} onFilterChange={setFilter} titleRef={titleRef} />
 
           <ExtensionList
             extensions={visibleExtensions}
             emptyMessage={EMPTY_MESSAGES[filter]}
             onToggle={handleToggle}
+            onRemove={handleRemove}
           />
         </section>
       </main>

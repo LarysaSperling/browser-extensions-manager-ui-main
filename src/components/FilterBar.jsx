@@ -8,10 +8,12 @@ const FILTERS = [
   { value: 'inactive', label: 'Inactive' },
 ];
 
-function FilterBar({ activeFilter, onFilterChange }) {
+// titleRef — звичайний prop з посиланням (ref) від App: так App може поставити фокус на заголовок.
+// tabIndex={-1}: заголовок можна сфокусувати з коду, але Tab на нього не зупиняється.
+function FilterBar({ activeFilter, onFilterChange, titleRef }) {
   return (
     <div className="filter-bar">
-      <h1 id="extensions-title" className="filter-bar__title">
+      <h1 id="extensions-title" className="filter-bar__title" ref={titleRef} tabIndex={-1}>
         Extensions List
       </h1>
 

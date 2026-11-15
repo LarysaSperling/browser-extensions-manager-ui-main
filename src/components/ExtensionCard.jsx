@@ -4,7 +4,7 @@ import './ExtensionCard.css';
 // Компонент нічого не знає про data.json: він отримує все потрібне через props.
 // Тому його легко перевикористати для будь-якого розширення.
 // Стан тут НЕ зберігається: картка лише показує isActive і повідомляє "мене перемкнули" через onToggle.
-function ExtensionCard({ logo, name, description, isActive, onToggle }) {
+function ExtensionCard({ logo, name, description, isActive, onToggle, onRemove }) {
   return (
     <article className="card">
       <div className="card__info">
@@ -17,7 +17,16 @@ function ExtensionCard({ logo, name, description, isActive, onToggle }) {
       </div>
 
       <div className="card__actions">
-        <button type="button" className="card__remove">
+        {/* Видимий текст — "Remove", але скрінрідер почує "Remove DevLens":
+            інакше 12 однакових кнопок "Remove" не розрізнити.
+            aria-label починається з видимого тексту — так голосове керування
+            ("натисни Remove") теж знайде кнопку. */}
+        <button
+          type="button"
+          className="card__remove"
+          aria-label={`Remove ${name}`}
+          onClick={onRemove}
+        >
           Remove
         </button>
         <Switch checked={isActive} onChange={onToggle} label={name} />
